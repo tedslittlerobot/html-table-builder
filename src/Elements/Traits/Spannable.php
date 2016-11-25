@@ -2,6 +2,8 @@
 
 namespace Tlr\Tables\Elements\Traits;
 
+use Tlr\Tables\Elements\Interfaces\Element;
+
 trait Spannable {
 
     /**
@@ -9,7 +11,14 @@ trait Spannable {
      *
      * @var int
      */
-    protected $spans;
+    protected $rowSpan;
+
+    /**
+     * The element span
+     *
+     * @var int
+     */
+    protected $colSpan;
 
     /**
      * Set the span property
@@ -17,39 +26,25 @@ trait Spannable {
      * @param  int    $spans
      * @return $this
      */
-    public function span(int $spans)
+    public function spanRows(int $spans) : Element
     {
-        $this->spans = $spans;
+        $this->rowSpan = $spans;
 
         return $this;
     }
 
     /**
-     * Get the span property
+     * Set the span property
      *
-     * @return int
+     * @param  int    $spans
+     * @return $this
      */
-    public function getSpans() : int
+    public function spanColumns(int $spans) : Element
     {
-        return $this->spans;
-    }
+        $this->colSpan = $spans;
 
-    /**
-     * Determine if this is a row or a column
-     *
-     * @return boolean
-     */
-    public function isRow() : bool
-    {
-        return str_slug(class_basename($this)) === 'row';
+        return $this;
     }
-
-    /**
-     * Determine if this is a row or a column
-     *
-     * @return boolean
-     */
-    abstract public function getSpanAttributeName() : string;
 
     /**
      * Render the class attribute as a string
@@ -58,14 +53,16 @@ trait Spannable {
      */
     public function renderSpanAttribute() : string
     {
-        if (!$this->spans) {
-            return '';
+        $attribute = '';
+
+        if ($this->colSpan) {
+            $attribute .= 'colspan=' . $this->colSpan;
         }
 
-        return sprintf(
-            '%s="%s"',
-            $this->getSpanAttributeName(),
-            $this->spans
-        );
+        if ($this->rowSpan) {
+            $attribute .= 'rowspan=' . $this->rowSpan;
+        }
+
+        return $attribute;
     }
 }

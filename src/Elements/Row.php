@@ -9,11 +9,10 @@ use Tlr\Tables\Elements\Interfaces\HasChildren;
 use Tlr\Tables\Elements\Section;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
-use Tlr\Tables\Elements\Traits\Spannable;
 
 class Row implements Element, HasChildren
 {
-    use Attributable, Classable, Spannable;
+    use Attributable, Classable;
 
     /**
      * The parent section
@@ -85,15 +84,5 @@ class Row implements Element, HasChildren
     public function getChildren() : Collection
     {
         return $this->cells;
-    }
-
-    /**
-     * Determine if this is a row or a column
-     *
-     * @return boolean
-     */
-    public function getSpanAttributeName() : string
-    {
-        return 'rowspan';
     }
 }

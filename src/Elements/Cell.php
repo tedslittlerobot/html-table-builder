@@ -66,19 +66,17 @@ class Cell implements Element, HasContent
      */
     public function cell(string $content = null) : Cell
     {
-        $cell = $this->row()->cell();
-
-        return $content ? $cell->content($content) : $cell;
+        return $this->row()->cell($content);
     }
 
     /**
      * Set the cell's content
      *
-     * @param  mixed $content
+     * @param  string $content
      * @param  bool   $escape
      * @return \Tlr\Tables\Elements\Cell
      */
-    public function content($content) : Cell
+    public function content(string $content) : Cell
     {
         $this->content = $content;
 
@@ -128,15 +126,5 @@ class Cell implements Element, HasContent
     public function getContent() : string
     {
         return $this->escape ? e($this->content) : $this->content;
-    }
-
-    /**
-     * Determine if this is a row or a column
-     *
-     * @return boolean
-     */
-    public function getSpanAttributeName() : string
-    {
-        return 'colspan';
     }
 }

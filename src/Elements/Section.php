@@ -100,5 +100,4 @@ class Section implements Element, HasChildren
     {
         return $this->rows;
     }
-
 }
