@@ -1,5 +1,7 @@
 # HTML Table Builder
 
+[![Build Status](https://travis-ci.org/tedslittlerobot/html-table-builder.svg?branch=master)](https://travis-ci.org/tedslittlerobot/html-table-builder)
+
 A class-based, "fluent" HTML table builder in PHP.
 
 ```php
