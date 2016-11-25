@@ -1,0 +1,99 @@
+<?php
+
+namespace Tlr\Tables\Elements;
+
+use Illuminate\Support\Collection;
+use Tlr\Tables\Elements\Cell;
+use Tlr\Tables\Elements\Interfaces\Element;
+use Tlr\Tables\Elements\Interfaces\HasChildren;
+use Tlr\Tables\Elements\Section;
+use Tlr\Tables\Elements\Traits\Attributable;
+use Tlr\Tables\Elements\Traits\Classable;
+use Tlr\Tables\Elements\Traits\Spannable;
+
+class Row implements Element, HasChildren
+{
+    use Attributable, Classable, Spannable;
+
+    /**
+     * The parent section
+     *
+     * @var \Tlr\Tables\Elements\Section
+     */
+    protected $section;
+
+    /**
+     * The cells
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    protected $cells;
+
+    public function __construct(Section $section)
+    {
+        $this->section = $section;
+        $this->cells = collect();
+    }
+
+    /**
+     * Get the element name
+     *
+     * @return string
+     */
+    public function getElement() : string
+    {
+        return 'row';
+    }
+
+    /**
+     * Make a new cell
+     *
+     * @return \Tlr\Tables\Elements\Cell
+     */
+    public function cell(string $content = null) : Cell
+    {
+        $this->cells->push($cell = new Cell($this));
+
+        return $content ? $cell->content($content) : $cell;
+    }
+
+    /**
+     * Get the parent section
+     *
+     * @return \Tlr\Tables\Elements\Section
+     */
+    public function section() : Section
+    {
+        return $this->section;
+    }
+
+    /**
+     * Get the cell element
+     *
+     * @return string
+     */
+    public function getCellElement() : string
+    {
+        return $this->cellElement;
+    }
+
+    /**
+     * Get the child elements
+     *
+     * @return Collection
+     */
+    public function getChildren() : Collection
+    {
+        return $this->cells;
+    }
+
+    /**
+     * Determine if this is a row or a column
+     *
+     * @return boolean
+     */
+    public function getSpanAttributeName() : string
+    {
+        return 'rowspan';
+    }
+}

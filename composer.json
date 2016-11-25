@@ -1,0 +1,19 @@
+{
+    "name": "tlr/tables",
+    "description": "An HTML Table Builder",
+    "require": {
+        "illuminate/support": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tlr\\Tables\\": "src"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stef Horner",
+            "email": "stef@tedslittlerobot.com"
+        }
+    ]
+}
