@@ -27,6 +27,12 @@ $table->footer()
 echo $table->render();
 ```
 
+## Installation
+
+```bash
+composer require tlr/html-table-builder
+```
+
 ## Basic Usage
 
 You can see much of the functionality in the above example. More detailed explanations are below.
