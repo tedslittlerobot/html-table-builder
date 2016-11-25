@@ -46,7 +46,7 @@ class Cell implements Element, HasContent
      */
     public function getElement() : string
     {
-        return $this->row->section()->getCellElement();
+        return $this->row()->section()->getCellElement();
     }
 
     /**
@@ -66,7 +66,7 @@ class Cell implements Element, HasContent
      */
     public function cell(string $content = null) : Cell
     {
-        $cell = $this->row->cell();
+        $cell = $this->row()->cell();
 
         return $content ? $cell->content($content) : $cell;
     }
