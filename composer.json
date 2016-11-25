@@ -1,5 +1,5 @@
 {
-    "name": "tlr/tables",
+    "name": "tlr/html-table-builder",
     "description": "An HTML Table Builder",
     "require": {
         "illuminate/support": "^5.3"
