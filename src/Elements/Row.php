@@ -24,14 +24,13 @@ class Row implements Element, HasChildren
     /**
      * The cells
      *
-     * @var \Illuminate\Support\Collection
+     * @var array
      */
-    protected $cells;
+    protected $cells = [];
 
     public function __construct(Section $section)
     {
         $this->section = $section;
-        $this->cells = collect();
     }
 
     /**
@@ -51,7 +50,7 @@ class Row implements Element, HasChildren
      */
     public function cell(string $content = null) : Cell
     {
-        $this->cells->push($cell = new Cell($this));
+        $this->cells[] = $cell = new Cell($this);
 
         return $content ? $cell->content($content) : $cell;
     }
@@ -69,9 +68,9 @@ class Row implements Element, HasChildren
     /**
      * Get the child elements
      *
-     * @return Collection
+     * @return array
      */
-    public function getChildren() : Collection
+    public function getChildren() : array
     {
         return $this->cells;
     }

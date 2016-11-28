@@ -2,13 +2,11 @@
 
 namespace Tlr\Tables\Elements\Interfaces;
 
-use Illuminate\Support\Collection;
-
 interface HasChildren {
     /**
      * Get the child elements
      *
-     * @return Collection
+     * @return array
      */
-    public function getChildren() : Collection;
+    public function getChildren() : array;
 }

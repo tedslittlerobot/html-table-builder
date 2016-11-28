@@ -3,6 +3,7 @@
 namespace Tlr\Tables;
 
 use InvalidArgumentException;
+use Tlr\Tables as helpers;
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
 use Tlr\Tables\Elements\Interfaces\HasContent;
@@ -48,7 +49,7 @@ class TableRenderer
      */
     protected function usesTrait($object, string $trait) : bool
     {
-        return in_array($trait, class_uses_recursive($object));
+        return in_array($trait, helpers\class_uses_recursive($object));
     }
 
     /**
@@ -91,9 +92,11 @@ class TableRenderer
         }
 
         if ($element instanceof HasChildren) {
-            return $element->getChildren()->map(function(Element $element) {
+            $renderedChildren = array_map(function(Element $element) {
                 return $this->renderElement($element);
-            })->implode('');
+            }, $element->getChildren());
+
+            return implode('', $renderedChildren);
         }
 
         if ($element instanceof HasContent) {

@@ -2,7 +2,7 @@
 
 namespace Tlr\Tables\Elements\Traits;
 
-use Illuminate\Support\Collection;
+use Tlr\Tables as helpers;
 use Tlr\Tables\Elements\Interfaces\Element;
 
 trait Classable {
@@ -41,11 +41,11 @@ trait Classable {
     /**
      * Get the classes
      *
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    public function getClasses() : Collection
+    public function getClasses() : array
     {
-        return collect($this->classes);
+        return $this->classes;
     }
 
     /**
@@ -59,11 +59,10 @@ trait Classable {
             return '';
         }
 
-        return sprintf(
-            'class="%s"',
-            $this->getClasses()->map(function($item) {
-                return e($item);
-            })->implode(' ')
-        );
+        $classString = array_map(function($item) {
+            return helpers\e($item);
+        }, $this->classes);
+
+        return sprintf('class="%s"', implode(' ', $classString));
     }
 }

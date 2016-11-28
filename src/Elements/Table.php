@@ -2,7 +2,6 @@
 
 namespace Tlr\Tables\Elements;
 
-use Illuminate\Support\Collection;
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
 use Tlr\Tables\Elements\Section;
@@ -68,11 +67,11 @@ class Table implements Element, HasChildren
     /**
      * Get the child elements
      *
-     * @return Collection
+     * @return array
      */
-    public function getChildren() : Collection
+    public function getChildren() : array
     {
-        return collect([$this->header, $this->body, $this->footer])->filter();
+        return array_filter([$this->header, $this->body, $this->footer]);
     }
 
     /**

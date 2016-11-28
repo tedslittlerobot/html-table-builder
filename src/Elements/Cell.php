@@ -2,6 +2,7 @@
 
 namespace Tlr\Tables\Elements;
 
+use Tlr\Tables as helpers;
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasContent;
 use Tlr\Tables\Elements\Row;
@@ -92,7 +93,7 @@ class Cell implements Element, HasContent
      */
     public function wrapContent(string $opening, string $content, string $closing) : Cell
     {
-        $this->content = $opening . e($content) . $closing;
+        $this->content = $opening . helpers\e($content) . $closing;
 
         return $this->raw();
     }
@@ -139,6 +140,6 @@ class Cell implements Element, HasContent
      */
     public function getContent() : string
     {
-        return $this->escape ? e($this->content) : $this->content;
+        return $this->escape ? helpers\e($this->content) : $this->content;
     }
 }

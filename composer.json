@@ -1,13 +1,12 @@
 {
     "name": "tlr/html-table-builder",
     "description": "An HTML Table Builder",
-    "require": {
-        "illuminate/support": "^5.3"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "Tlr\\Tables\\": "src"
-        }
+        },
+        "files": ["src/helpers.php"]
     },
     "autoload-dev": {
         "classmap": [

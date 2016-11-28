@@ -2,7 +2,6 @@
 
 namespace Tlr\Tables\Elements;
 
-use Illuminate\Support\Collection;
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
 use Tlr\Tables\Elements\Row;
@@ -37,16 +36,15 @@ class Section implements Element, HasChildren
     /**
      * The section's rows
      *
-     * @var \Illuminate\Support\Collection
+     * @var array
      */
-    protected $rows;
+    protected $rows = [];
 
     public function __construct(Table $table, string $element = 'tbody', string $cellElement = 'td')
     {
         $this->table = $table;
         $this->element = $element;
         $this->cellElement = $cellElement;
-        $this->rows = collect();
     }
 
     /**
@@ -56,7 +54,7 @@ class Section implements Element, HasChildren
      */
     public function row() : Row
     {
-        $this->rows->push($row = new Row($this));
+        $this->rows[] = $row = new Row($this);
 
         return $row;
     }
@@ -94,9 +92,9 @@ class Section implements Element, HasChildren
     /**
      * Get the child elements
      *
-     * @return Collection
+     * @return array
      */
-    public function getChildren() : Collection
+    public function getChildren() : array
     {
         return $this->rows;
     }

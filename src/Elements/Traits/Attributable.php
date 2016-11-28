@@ -2,8 +2,8 @@
 
 namespace Tlr\Tables\Elements\Traits;
 
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use Tlr\Tables as helpers;
 use Tlr\Tables\Elements\Interfaces\Element;
 
 trait Attributable {
@@ -46,11 +46,11 @@ trait Attributable {
     /**
      * Get the attributes
      *
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    public function getAttributes() : Collection
+    public function getAttributes() : array
     {
-        return collect($this->attributes);
+        return $this->attributes;
     }
 
     /**
@@ -60,8 +60,10 @@ trait Attributable {
      */
     public function renderAttributes() : string
     {
-        return $this->getAttributes()->map(function(string $value, string $key) {
-            return sprintf('%s="%s"', e($key), e($value));
-        })->implode(' ');
+        $pairs = array_map(function(string $value, string $key) {
+            return sprintf('%s="%s"', helpers\e($key), helpers\e($value));
+        }, $this->attributes, array_keys($this->attributes));
+
+        return implode(' ', $pairs);
     }
 }
