@@ -41,7 +41,7 @@ class Row implements Element, HasChildren
      */
     public function getElement() : string
     {
-        return 'row';
+        return 'tr';
     }
 
     /**

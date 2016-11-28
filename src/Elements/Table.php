@@ -94,4 +94,14 @@ class Table implements Element, HasChildren
     {
         return (new TableRenderer)->renderElement($this);
     }
+
+    /**
+     * Convert the table to a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
 }
