@@ -67,16 +67,6 @@ class Row implements Element, HasChildren
     }
 
     /**
-     * Get the cell element
-     *
-     * @return string
-     */
-    public function getCellElement() : string
-    {
-        return $this->cellElement;
-    }
-
-    /**
      * Get the child elements
      *
      * @return Collection

@@ -4,7 +4,7 @@ use Mockery as m;
 use Tlr\Tables\Elements\Cell;
 use Tlr\Tables\Elements\Row;
 
-class UnitElementsTableTest extends TestCase
+class UnitElementsCellTest extends TestCase
 {
     public function testSetContent()
     {
