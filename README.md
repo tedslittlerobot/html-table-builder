@@ -125,6 +125,24 @@ These control how the content given to the cell is rendered. The latter two are 
 
 These all return the cell object for chaining.
 
+#### `$cell->wrapContent(string $opening, string $content, string $closing)`
+
+This lets you enter some unescaped HTML that wrap some escaped content. Essentially, all this does is escape the `$content` value, then concatenate them in order, and set the cell to `->raw()` or `->dontEscape()`. Nevertheless, it can still be helpful - allowing you to mix your own unescaped HTML with some content that should be escaped.
+
+As with any unescaped content, it is up to you to ensure the HTML is valid.
+
+For example:
+
+```php
+$cell->wrapContent('<a href="edit/2">', $user->first_name, '</a>');
+// if $user->first_name is James
+// <td><a href="edit/2">James</a></td>
+// if $user->first_name is <James>
+// <td><a href="edit/2">&lt;James&gt;</a></td>
+```
+
+This returns the cell object for chaining.
+
 #### `$cell->cell(string $content = null)`
 
 This creates a new "sibling" cell - ie. one immediately after it in the row. You can use this method to chain-create cells in a row:

@@ -73,7 +73,6 @@ class Cell implements Element, HasContent
      * Set the cell's content
      *
      * @param  string $content
-     * @param  bool   $escape
      * @return \Tlr\Tables\Elements\Cell
      */
     public function content(string $content) : Cell
@@ -81,6 +80,21 @@ class Cell implements Element, HasContent
         $this->content = $content;
 
         return $this;
+    }
+
+    /**
+     * Set the cell's content, wrapping it in some html
+     *
+     * @param  string $opening
+     * @param  string $content
+     * @param  string $closing
+     * @return \Tlr\Tables\Elements\Cell
+     */
+    public function wrapContent(string $opening, string $content, string $closing) : Cell
+    {
+        $this->content = $opening . e($content) . $closing;
+
+        return $this->raw();
     }
 
     /**
