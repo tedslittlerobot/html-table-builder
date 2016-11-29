@@ -81,11 +81,28 @@ See `Classable` below for information on setting the rows' classes.
 
 See `Attributable` below for information on setting other attributes on the cell element.
 
-There is only one other method to talk about here.
+There are two other methods to talk about here.
 
 #### `$section->row()`
 
 This initialises and returns a new `Row` object. Calling it multiple times will add multiple rows to the table.
+
+#### `$section->nextRow(Row $current)`
+
+Returns the next row in its children from the one passed to it.
+
+Throws an error if passed a row that is not one of its children.
+
+See the code example for the logic of how this works.
+
+```php
+
+$one = $section->row();
+$two = $section->row();
+
+$section->nextRow($one) === $two; // true
+$section->nextRow($two); // a new row
+```
 
 ### Row
 
@@ -95,11 +112,28 @@ See `Classable` below for information on setting the rows' classes.
 
 See `Attributable` below for information on setting other attributes on the cell element.
 
-There is only one other method to talk about here.
+There are two other methods to talk about here.
 
 #### `$row->cell(string $content = null)`
 
 This initialises a new cell object, with the given content. You can leave the argument out to initialise the cell without any content (you can set the content later - see `Cell` below).
+
+#### `$row->nextCell(Cell $current)`
+
+Returns the next cell in its children from the one passed to it. This works the same as `Section@nextRow`.
+
+Throws an error if passed a row that is not one of its children.
+
+See the code example for the logic of how this works.
+
+```php
+
+$one = $row->cell();
+$two = $row->cell();
+
+$row->nextCell($one) === $two; // true
+$row->nextCell($two); // a new row
+```
 
 ### Cell
 

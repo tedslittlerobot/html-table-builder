@@ -50,9 +50,32 @@ class Row implements Element, HasChildren
      */
     public function cell(string $content = null) : Cell
     {
-        $this->cells[] = $cell = new Cell($this);
+        return $content ? $this->addCell()->content($content) : $this->addCell();
+    }
 
-        return $content ? $cell->content($content) : $cell;
+    /**
+     * Get the next cell from the one given. Creates a new cell if it's the last
+     * cell
+     *
+     * @return \Tlr\Tables\Elements\Cell
+     */
+    public function nextCell(Cell $current) : Cell
+    {
+        $index = array_search($current, $this->cells, true);
+
+        if ($index === false) {
+            throw new InvalidArgumentException('The given cell is not in the cells array');
+        }
+
+        return $this->cells[$index + 1] ?? $this->addCell();
+    }
+
+    /**
+     * Add a new cell
+     */
+    protected function addCell() : Cell
+    {
+        return $this->cells[] = new Cell($this);
     }
 
     /**
