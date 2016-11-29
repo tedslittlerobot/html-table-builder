@@ -54,9 +54,24 @@ class Section implements Element, HasChildren
      */
     public function row() : Row
     {
-        $this->rows[] = $row = new Row($this);
+        return $this->rows[] = $row = new Row($this);
+    }
 
-        return $row;
+    /**
+     * Get the next row from the one given. Creates a new row if it's the last
+     * row
+     *
+     * @return \Tlr\Tables\Elements\Row
+     */
+    public function nextRow(Row $current) : Row
+    {
+        $index = array_search($current, $this->rows, true);
+
+        if ($index === false) {
+            throw new InvalidArgumentException('The given row is not in the rows array');
+        }
+
+        return $this->rows[$index + 1] ?? $this->row();
     }
 
     /**
