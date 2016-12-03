@@ -2,6 +2,7 @@
 
 namespace Tlr\Tables\Builder;
 
+use function Stringy\create as s;
 use Tlr\Tables\Elements\Cell;
 
 trait SimpleTableBlueprintTrait
@@ -64,8 +65,7 @@ trait SimpleTableBlueprintTrait
     {
         $cell = new Cell;
 
-        // @todo - camelcase column name (stringy?)
-        $method = $column . $domain . 'Cell';
+        $method = s($column . $domain . 'Cell')->camelize();
 
         if (!method_exists($this, $method)) {
             throw new \Exception(sprintf('Class [%s] must implement a [%s(Cell $cell)] method', get_class($this), $method));

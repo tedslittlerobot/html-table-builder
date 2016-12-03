@@ -1,7 +1,9 @@
 {
     "name": "tlr/html-table-builder",
     "description": "An HTML Table Builder",
-    "require": {},
+    "require": {
+        "danielstjules/stringy": "^2.3"
+    },
     "autoload": {
         "psr-4": {
             "Tlr\\Tables\\": "src"
