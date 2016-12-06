@@ -2,22 +2,16 @@
 
 namespace Tlr\Tables\Elements;
 
-use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
+use Tlr\Tables\Elements\Interfaces\RowInterface;
+use Tlr\Tables\Elements\Interfaces\SectionInterface;
 use Tlr\Tables\Elements\Row;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 
-class Section implements Element, HasChildren
+abstract class Section implements SectionInterface, HasChildren
 {
     use Attributable, Classable;
-
-    /**
-     * The table section element
-     *
-     * @var string
-     */
-    protected $element;
 
     /**
      * The section's rows
@@ -26,28 +20,13 @@ class Section implements Element, HasChildren
      */
     protected $rows = [];
 
-    public function __construct(string $element = 'tbody')
-    {
-        $this->element = $element;
-    }
-
-    /**
-     * Make a new row
-     *
-     * @return \Tlr\Tables\Elements\Row
-     */
-    public function row() : Row
-    {
-        return $this->rows[] = $row = new Row;
-    }
-
     /**
      * Get the next row from the one given. Creates a new row if it's the last
      * row
      *
-     * @return \Tlr\Tables\Elements\Row
+     * @return \Tlr\Tables\Elements\Interfaces\RowInterface
      */
-    public function nextRow(Row $current) : Row
+    public function nextRow(Row $current) : RowInterface
     {
         $index = array_search($current, $this->rows, true);
 
@@ -56,26 +35,6 @@ class Section implements Element, HasChildren
         }
 
         return $this->rows[$index + 1] ?? $this->row();
-    }
-
-    /**
-     * Get the element
-     *
-     * @return string
-     */
-    public function getElement() : string
-    {
-        return $this->element;
-    }
-
-    /**
-     * Get the cell element
-     *
-     * @return string
-     */
-    public function getCellElement() : string
-    {
-        return $this->cellElement;
     }
 
     /**

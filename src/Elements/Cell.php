@@ -2,13 +2,12 @@
 
 namespace Tlr\Tables\Elements;
 
-use Tlr\Tables\Elements\Interfaces\Element;
-use Tlr\Tables\Elements\Row;
+use Tlr\Tables\Elements\Interfaces\CellInterface;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 use Tlr\Tables\Elements\Traits\Spannable;
 
-abstract class Cell implements Element
+abstract class Cell implements CellInterface
 {
     use Attributable, Classable, Spannable;
 
@@ -22,9 +21,9 @@ abstract class Cell implements Element
     /**
      * Set this cell's element
      *
-     * @return \Tlr\Tables\Elements\Cell
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
      */
-    public function setElement(string $element) : Cell
+    public function setElement(string $element) : CellInterface
     {
         return $this;
     }
@@ -32,9 +31,9 @@ abstract class Cell implements Element
     /**
      * Set this cell as a header cell
      *
-     * @return \Tlr\Tables\Elements\Cell
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
      */
-    public function headerCell() : Cell
+    public function headerCell() : CellInterface
     {
         return $this->setElement('th');
     }
@@ -42,9 +41,9 @@ abstract class Cell implements Element
     /**
      * Set this cell as a body cell
      *
-     * @return \Tlr\Tables\Elements\Cell
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
      */
-    public function bodyCell() : Cell
+    public function bodyCell() : CellInterface
     {
         return $this->setElement('td');
     }

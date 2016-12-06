@@ -3,17 +3,17 @@
 namespace Tlr\Tables\Elements;
 
 use Illuminate\Support\Collection;
-use Tlr\Tables\Elements\Cell;
 use Tlr\Tables\Elements\Cells\ContentCell;
 use Tlr\Tables\Elements\Cells\ImageCell;
 use Tlr\Tables\Elements\Cells\LinkCell;
-use Tlr\Tables\Elements\Interfaces\Element;
+use Tlr\Tables\Elements\Interfaces\CellInterface;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
+use Tlr\Tables\Elements\Interfaces\RowInterface;
 use Tlr\Tables\Elements\Section;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 
-class Row implements Element, HasChildren
+class Row implements RowInterface, HasChildren
 {
     use Attributable, Classable;
 
@@ -37,7 +37,7 @@ class Row implements Element, HasChildren
     /**
      * Add a new cell
      */
-    public function addCell(Cell $cell) : Row
+    public function addCell(CellInterface $cell) : RowInterface
     {
         $this->cells[] = $cell;
 
