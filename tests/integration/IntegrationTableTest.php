@@ -23,12 +23,14 @@ class IntegrationTableTest extends TestCase
         $this->assertEquals('<table><tbody><tr><td></td></tr></tbody></table>', $table->render());
     }
 
-    public function testBasicTableWithContentElement()
+    public function testBasicTableWithAllCellElements()
     {
         $table = new Table();
         $table->body()->row()->cell()->content('Foo');
+        $table->body()->row()->linkCell('foo.com')->content('bar');
+        $table->body()->row()->imageCell('foo.jpg');
 
-        $this->assertEquals('<table><tbody><tr><td>Foo</td></tr></tbody></table>', $table->render());
+        $this->assertEquals('<table><tbody><tr><td>Foo</td></tr><tr><td><a href="foo.com">bar</a></td></tr><tr><td><img src="foo.jpg" /></td></tr></tbody></table>', $table->render());
     }
 
     // public function testAllFeatures()

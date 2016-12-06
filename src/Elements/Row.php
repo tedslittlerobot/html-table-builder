@@ -71,11 +71,12 @@ class Row implements Element, HasChildren
     /**
      * Make a new cell
      *
+     * @param string $link
      * @return \Tlr\Tables\Elements\Cells\LinkCell
      */
     public function linkCell(string $link) : LinkCell
     {
-        $this->addCell($cell = new LinkCell);
+        $this->addCell($cell = new LinkCell($link));
 
         return $cell;
     }
@@ -83,13 +84,13 @@ class Row implements Element, HasChildren
     /**
      * Make a new cell
      *
+     * @param  string  $source
      * @return \Tlr\Tables\Elements\Cells\ImageCell
      */
-    public function imageCell(string $src) : ImageCell
+    public function imageCell(string $source) : ImageCell
     {
-        $this->addCell($cell = new ImageCell);
+        $this->addCell($cell = new ImageCell($source));
 
         return $cell;
     }
-
 }
