@@ -127,6 +127,7 @@ class TableRenderer
      */
     public function renderElement(Element $element) : string
     {
+        // @todo - if the element implements neither HasContent or HasChildren, make it self-closing <img />
         // @todo - fix indentation - currently it adds an extra line as the middle indentation
         return $this->indent($this->depth, sprintf('<%s%s>', $element->getElement(), $this->getAttributesForElement($element))) .
             $this->indent($this->depth++, $this->getContentForElement($element)) .

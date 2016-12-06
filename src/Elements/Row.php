@@ -5,6 +5,8 @@ namespace Tlr\Tables\Elements;
 use Illuminate\Support\Collection;
 use Tlr\Tables\Elements\Cell;
 use Tlr\Tables\Elements\Cells\ContentCell;
+use Tlr\Tables\Elements\Cells\ImageCell;
+use Tlr\Tables\Elements\Cells\LinkCell;
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
 use Tlr\Tables\Elements\Section;
@@ -33,18 +35,6 @@ class Row implements Element, HasChildren
     }
 
     /**
-     * Make a new cell
-     *
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function cell() : Cell
-    {
-        $this->addCell($cell = new ContentCell);
-
-        return $cell;
-    }
-
-    /**
      * Add a new cell
      */
     public function addCell(Cell $cell) : Row
@@ -63,4 +53,43 @@ class Row implements Element, HasChildren
     {
         return $this->cells;
     }
+
+    /////// FACTORIES ///////
+
+    /**
+     * Make a new cell
+     *
+     * @return \Tlr\Tables\Elements\Cells\ContentCell
+     */
+    public function cell() : ContentCell
+    {
+        $this->addCell($cell = new ContentCell);
+
+        return $cell;
+    }
+
+    /**
+     * Make a new cell
+     *
+     * @return \Tlr\Tables\Elements\Cells\LinkCell
+     */
+    public function linkCell(string $link) : LinkCell
+    {
+        $this->addCell($cell = new LinkCell);
+
+        return $cell;
+    }
+
+    /**
+     * Make a new cell
+     *
+     * @return \Tlr\Tables\Elements\Cells\ImageCell
+     */
+    public function imageCell(string $src) : ImageCell
+    {
+        $this->addCell($cell = new ImageCell);
+
+        return $cell;
+    }
+
 }
