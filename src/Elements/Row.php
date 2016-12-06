@@ -13,7 +13,7 @@ use Tlr\Tables\Elements\Section;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 
-class Row implements RowInterface, HasChildren
+abstract class Row implements RowInterface, HasChildren
 {
     use Attributable, Classable;
 

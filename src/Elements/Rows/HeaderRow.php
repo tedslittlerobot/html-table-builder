@@ -13,8 +13,6 @@ class HeaderRow extends Row
      */
     public function addCell(CellInterface $cell) : RowInterface
     {
-        $this->cells[] = $cell->headerCell();
-
-        return $this;
+        return parent::addCell($cell->headerCell());
     }
 }

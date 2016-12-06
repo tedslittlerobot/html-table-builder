@@ -13,8 +13,6 @@ class BodyRow extends Row
      */
     public function addCell(CellInterface $cell) : RowInterface
     {
-        $this->cells[] = $cell->bodyCell();
-
-        return $this;
+        return parent::addCell($cell->bodyCell());
     }
 }
