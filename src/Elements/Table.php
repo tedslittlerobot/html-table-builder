@@ -41,7 +41,7 @@ class Table implements Element, HasChildren
      */
     public function header() : Section
     {
-        return $this->header = $this->header ?: new Section($this, 'thead', 'th');
+        return $this->header = $this->header ?: new Section('thead');
     }
 
     /**
@@ -51,7 +51,7 @@ class Table implements Element, HasChildren
      */
     public function body() : Section
     {
-        return $this->body = $this->body ?: new Section($this, 'tbody');
+        return $this->body = $this->body ?: new Section('tbody');
     }
 
     /**
@@ -61,7 +61,7 @@ class Table implements Element, HasChildren
      */
     public function footer() : Section
     {
-        return $this->footer = $this->footer ?: new Section($this, 'tfoot', 'th');
+        return $this->footer = $this->footer ?: new Section('tfoot');
     }
 
     /**

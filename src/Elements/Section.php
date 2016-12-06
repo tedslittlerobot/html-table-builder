@@ -13,25 +13,11 @@ class Section implements Element, HasChildren
     use Attributable, Classable;
 
     /**
-     * The parent table
-     *
-     * @var \Tlr\Tables\Elements\Table
-     */
-    protected $table;
-
-    /**
      * The table section element
      *
      * @var string
      */
     protected $element;
-
-    /**
-     * The cell element for this section
-     *
-     * @var string
-     */
-    protected $cellElement;
 
     /**
      * The section's rows
@@ -40,11 +26,9 @@ class Section implements Element, HasChildren
      */
     protected $rows = [];
 
-    public function __construct(Table $table, string $element = 'tbody', string $cellElement = 'td')
+    public function __construct(string $element = 'tbody')
     {
-        $this->table = $table;
         $this->element = $element;
-        $this->cellElement = $cellElement;
     }
 
     /**
@@ -54,7 +38,7 @@ class Section implements Element, HasChildren
      */
     public function row() : Row
     {
-        return $this->rows[] = $row = new Row($this);
+        return $this->rows[] = $row = new Row;
     }
 
     /**
@@ -72,16 +56,6 @@ class Section implements Element, HasChildren
         }
 
         return $this->rows[$index + 1] ?? $this->row();
-    }
-
-    /**
-     * Get the parent table
-     *
-     * @return \Tlr\Tables\Elements\Table
-     */
-    public function table() : Table
-    {
-        return $this->table;
     }
 
     /**
