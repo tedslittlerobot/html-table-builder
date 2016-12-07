@@ -61,9 +61,13 @@ abstract class Row implements RowInterface, HasChildren
      *
      * @return \Tlr\Tables\Elements\Cells\ContentCell
      */
-    public function cell() : ContentCell
+    public function cell(string $content = '') : ContentCell
     {
         $this->addCell($cell = new ContentCell);
+
+        if ($content) {
+            $cell->content($content);
+        }
 
         return $cell;
     }
