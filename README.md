@@ -11,20 +11,19 @@ $table = new Table;
 
 $table->class('ui celled table');
 
-$table->header()->row()
-    ->cell('Name')
-    ->cell('Age')
-    ->cell('Something Else');
+$row = $table->header()->row();
+$row->cell('Name');
+$row->cell('Age');
+$row->cell('Something Else');
 
-$table->body()
-    ->row()
-        ->cell('George')
-        ->cell('12')
-        ->cell('Food');
+$row = $table->body()->row();
 
-$table->footer()
-    ->row()
-        ->cell('<a href="/create">Add a new entry</a>')->dontEscape()->span(3);
+$row->cell('George');
+$row->cell('12');
+$row->cell('Food');
+
+$table->footer()->row()
+    ->cell('<a href="/create">Add a new entry</a>')->dontEscape()->span(3);
 
 echo $table->render();
 ```
@@ -112,30 +111,17 @@ See `Classable` below for information on setting the rows' classes.
 
 See `Attributable` below for information on setting other attributes on the cell element.
 
-There are two other methods to talk about here.
+#### `$row->addCell(CellInterface $cell)`
 
-#### `$row->cell(string $content = null)`
+This adds a new cell to the row. You can use this to add a custom cell to the row.
 
-This initialises a new cell object, with the given content. You can leave the argument out to initialise the cell without any content (you can set the content later - see `Cell` below).
+The following helper methods use this method to add the basic included cell types.
 
-#### `$row->nextCell(Cell $current)`
+- `$row->cell(string $content = null)`
+- `$row->linkCell(string $link)`
+- `$row->imageCell(string $src)`
 
-Returns the next cell in its children from the one passed to it. This works the same as `Section@nextRow`.
-
-Throws an error if passed a row that is not one of its children.
-
-See the code example for the logic of how this works.
-
-```php
-
-$one = $row->cell();
-$two = $row->cell();
-
-$row->nextCell($one) === $two; // true
-$row->nextCell($two); // a new row
-```
-
-### Cell
+### Cells
 
 These objects represent cells in a table row.
 
@@ -145,52 +131,49 @@ See `Classable` below for information on setting the cells' classes.
 
 See `Attributable` below for information on setting other attributes on the cell element.
 
-There are a few other useful methods:
+#### Content Cell
 
-#### `$cell->content($content)`
+This is the default cell. It is fairly versatile, although basic.
 
-Sets the content of a cell. You can use this to change the content of a cell after initialisation.
+You can set the content on initialiastaion, or by calling the `->content(string $content)` method.
 
-This returns the cell object for chaining.
+The default behaviour is to escape the content. If you want to override this, chain in the `->dontEscape()` or `->raw()` methods.
 
-#### `$cell->escape(bool $escape = true)` `$cell->dontEscape()` `$cell->raw()`
-
-These control how the content given to the cell is rendered. The latter two are all eqivalent to calling `->escape(false)`.
-
-These all return the cell object for chaining.
-
-#### `$cell->wrapContent(string $opening, string $content, string $closing)`
-
-This lets you enter some unescaped HTML that wrap some escaped content. Essentially, all this does is escape the `$content` value, then concatenate them in order, and set the cell to `->raw()` or `->dontEscape()`. Nevertheless, it can still be helpful - allowing you to mix your own unescaped HTML with some content that should be escaped.
+There is a `->wrapContent(string $open, string $content, string $close)` method. This lets you enter some unescaped HTML that wrap some escaped content. Essentially, all this does is escape the `$content` value, then concatenate them in order, and set the cell to `->raw()` or `->dontEscape()`. Nevertheless, it can still be helpful - allowing you to mix your own unescaped HTML with some content that should be escaped.
 
 As with any unescaped content, it is up to you to ensure the HTML is valid.
 
-For example:
+See below for some examples.
 
 ```php
-$cell->wrapContent('<a href="edit/2">', $user->first_name, '</a>');
-// if $user->first_name is James
-// <td><a href="edit/2">James</a></td>
-// if $user->first_name is <James>
-// <td><a href="edit/2">&lt;James&gt;</a></td>
+$row->cell('Cat'); // <td>Cat</td>
+$row->cell('<Cat>'); // <td>&lt;Cat&gt;</td>
+$row->cell('<Cat>')->raw(); // <td><Cat></td>
+$row->cell()->content('Cat'); // <td>Cat</td>
+$row->cell()->wrapContent('<strong>', '<Cat>', '</strong>'); // <strong>&lt;Cat&gt;</strong>
 ```
 
-This returns the cell object for chaining.
+#### Link Cell
 
-#### `$cell->cell(string $content = null)`
-
-This creates a new "sibling" cell - ie. one immediately after it in the row. You can use this method to chain-create cells in a row:
+A link cell is a cell with a link in it. Other than the link argument to its constructor, it behaves like a `ContentCell`
 
 ```php
-// This is equivalent...
-$row->cell('Cell 1')->cell('Cell 2')->cell('Cell 3');
+$row->linkCell('https://google.com')->content('Visit Google.');
+// <td><a href="https://google.com">Visit Google.</a></td>
 
-// ...to this
-$row->cell('Cell 1');
-$row->cell('Cell 2');
-$row->cell('Cell 3');
+$cell = new LinkCell('localhost')->content('<pre>some preformatted text</pre>')->raw();
+```
 
-### Spannable
+#### Image Cell
+
+```php
+$row->imageCell('cat.jpg');
+// <td><img src="cat.jpg" /></td>
+```
+
+### Traits
+
+#### Spannable
 
 On the `Cell` objects, you can call:
 
@@ -204,7 +187,7 @@ $row->cell('A triple width column')->spanColumns(3);
 
 This returns the element object for chaining.
 
-### Classable
+#### Classable
 
 On any of the element objects - `Table`, `Section`, `Row`, `Cell`, you can set the class. The following three examples all result in `<table class="ui table">`:
 
@@ -221,7 +204,7 @@ $table->class(['ui', 'table']);
 
 This returns the element object for chaining.
 
-### Attributable
+#### Attributable
 
 You can set any other HTML attribute:
 

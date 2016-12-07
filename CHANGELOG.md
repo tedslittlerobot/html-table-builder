@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `illuimate/support` to dev dependancies - useful for debugging.
 - `nextRow` and `nextCell` methods to `Section` and `Row` respectively.
+- Added `ImageCell`, `ContentCell` and `LinkCell` types
+- Added header and body types for rows and sections
+
+### Changed
+- Change internal API - elements no longer hold references to their parents
+- Change internal API - cells, rows and sections have an interface, an abstract class, and various types
+
+### Removed
+- **Breaking** - removed `$cell->cell()`, and `$row->nextCell()`
 
 ## 1.0.1 - 2016-11-28
 ### Added
