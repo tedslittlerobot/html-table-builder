@@ -30,6 +30,16 @@ class IntegrationTableTest extends TestCase
         $this->assertEquals('<table><tbody><tr><td>Foo</td></tr><tr><td><a href="foo.com">bar</a></td></tr><tr><td><img src="foo.jpg" /></td></tr></tbody></table>', $table->render());
     }
 
+    public function testBasicTableWithAllThreeSections()
+    {
+        $table = new Table;
+        $table->header()->row()->cell()->content('Foo');
+        $table->body()->row()->cell()->content('Bar');
+        $table->footer()->row()->cell()->content('Baz');
+
+        $this->assertEquals('<table><thead><tr><th>Foo</th></tr></thead><tbody><tr><td>Bar</td></tr></tbody><tfoot><tr><th>Baz</th></tr></tfoot></table>', $table->render());
+    }
+
     public function testToStringRendersTheTable()
     {
         // This isn't really a unit test...

@@ -25,6 +25,8 @@ abstract class Cell implements CellInterface
      */
     public function setElement(string $element) : CellInterface
     {
+        $this->element = $element;
+
         return $this;
     }
 
