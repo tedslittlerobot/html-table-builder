@@ -3,23 +3,19 @@
 namespace Tlr\Tables\Elements;
 
 use Illuminate\Support\Collection;
-use Tlr\Tables\Elements\Cell;
-use Tlr\Tables\Elements\Interfaces\Element;
+use Tlr\Tables\Elements\Cells\ContentCell;
+use Tlr\Tables\Elements\Cells\ImageCell;
+use Tlr\Tables\Elements\Cells\LinkCell;
+use Tlr\Tables\Elements\Interfaces\CellInterface;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
+use Tlr\Tables\Elements\Interfaces\RowInterface;
 use Tlr\Tables\Elements\Section;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 
-class Row implements Element, HasChildren
+abstract class Row implements RowInterface, HasChildren
 {
     use Attributable, Classable;
-
-    /**
-     * The parent section
-     *
-     * @var \Tlr\Tables\Elements\Section
-     */
-    protected $section;
 
     /**
      * The cells
@@ -27,11 +23,6 @@ class Row implements Element, HasChildren
      * @var array
      */
     protected $cells = [];
-
-    public function __construct(Section $section)
-    {
-        $this->section = $section;
-    }
 
     /**
      * Get the element name
@@ -44,48 +35,13 @@ class Row implements Element, HasChildren
     }
 
     /**
-     * Make a new cell
-     *
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function cell(string $content = null) : Cell
-    {
-        return $content ? $this->addCell()->content($content) : $this->addCell();
-    }
-
-    /**
-     * Get the next cell from the one given. Creates a new cell if it's the last
-     * cell
-     *
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function nextCell(Cell $current) : Cell
-    {
-        $index = array_search($current, $this->cells, true);
-
-        if ($index === false) {
-            throw new InvalidArgumentException('The given cell is not in the cells array');
-        }
-
-        return $this->cells[$index + 1] ?? $this->addCell();
-    }
-
-    /**
      * Add a new cell
      */
-    protected function addCell() : Cell
+    public function addCell(CellInterface $cell) : RowInterface
     {
-        return $this->cells[] = new Cell($this);
-    }
+        $this->cells[] = $cell;
 
-    /**
-     * Get the parent section
-     *
-     * @return \Tlr\Tables\Elements\Section
-     */
-    public function section() : Section
-    {
-        return $this->section;
+        return $this;
     }
 
     /**
@@ -96,5 +52,49 @@ class Row implements Element, HasChildren
     public function getChildren() : array
     {
         return $this->cells;
+    }
+
+    /////// FACTORIES ///////
+
+    /**
+     * Make a new cell
+     *
+     * @return \Tlr\Tables\Elements\Cells\ContentCell
+     */
+    public function cell(string $content = '') : ContentCell
+    {
+        $this->addCell($cell = new ContentCell);
+
+        if ($content) {
+            $cell->content($content);
+        }
+
+        return $cell;
+    }
+
+    /**
+     * Make a new cell
+     *
+     * @param string $link
+     * @return \Tlr\Tables\Elements\Cells\LinkCell
+     */
+    public function linkCell(string $link) : LinkCell
+    {
+        $this->addCell($cell = new LinkCell($link));
+
+        return $cell;
+    }
+
+    /**
+     * Make a new cell
+     *
+     * @param  string  $source
+     * @return \Tlr\Tables\Elements\Cells\ImageCell
+     */
+    public function imageCell(string $source) : ImageCell
+    {
+        $this->addCell($cell = new ImageCell($source));
+
+        return $cell;
     }
 }

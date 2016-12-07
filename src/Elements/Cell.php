@@ -2,42 +2,52 @@
 
 namespace Tlr\Tables\Elements;
 
-use Tlr\Tables as helpers;
-use Tlr\Tables\Elements\Interfaces\Element;
-use Tlr\Tables\Elements\Interfaces\HasContent;
-use Tlr\Tables\Elements\Row;
+use Tlr\Tables\Elements\Interfaces\CellInterface;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 use Tlr\Tables\Elements\Traits\Spannable;
 
-class Cell implements Element, HasContent
+abstract class Cell implements CellInterface
 {
     use Attributable, Classable, Spannable;
 
     /**
-     * The parent row
-     *
-     * @var \Tlr\Tables\Elements\Row
-     */
-    protected $row;
-
-    /**
-     * The parent row
+     * The HTML element
      *
      * @var string
      */
-    protected $content = '';
+    protected $element = 'td';
 
     /**
-     * Should the cell escape its contents
+     * Set this cell's element
      *
-     * @var bool
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
      */
-    protected $escape = true;
-
-    public function __construct(Row $row)
+    public function setElement(string $element) : CellInterface
     {
-        $this->row = $row;
+        $this->element = $element;
+
+        return $this;
+    }
+
+    /**
+     * Set this cell as a header cell
+     *
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
+     */
+    public function headerCell() : CellInterface
+    {
+        return $this->setElement('th');
+    }
+
+    /**
+     * Set this cell as a body cell
+     *
+     * @return \Tlr\Tables\Elements\Interfaces\CellInterface
+     */
+    public function bodyCell() : CellInterface
+    {
+        return $this->setElement('td');
     }
 
     /**
@@ -47,99 +57,6 @@ class Cell implements Element, HasContent
      */
     public function getElement() : string
     {
-        return $this->row()->section()->getCellElement();
-    }
-
-    /**
-     * Get the parent row
-     *
-     * @return \Tlr\Tables\Elements\Row
-     */
-    public function row() : Row
-    {
-        return $this->row;
-    }
-
-    /**
-     * Make a sibling cell
-     *
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function cell(string $content = null) : Cell
-    {
-        return $this->row()->cell($content);
-    }
-
-    /**
-     * Set the cell's content
-     *
-     * @param  string $content
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function content(string $content) : Cell
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Set the cell's content, wrapping it in some html
-     *
-     * @param  string $opening
-     * @param  string $content
-     * @param  string $closing
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function wrapContent(string $opening, string $content, string $closing) : Cell
-    {
-        $this->content = $opening . helpers\e($content) . $closing;
-
-        return $this->raw();
-    }
-
-    /**
-     * Set whether we should escape or not
-     *
-     * @param  bool|boolean $escape
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function escape(bool $escape = true) : Cell
-    {
-        $this->escape = $escape;
-
-        return $this;
-    }
-
-    /**
-     * Set whether we should escape or not
-     *
-     * @param  bool|boolean $escape
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function dontEscape() : Cell
-    {
-        return $this->escape(false);
-    }
-
-    /**
-     * Set whether we should escape or not
-     *
-     * @param  bool|boolean $escape
-     * @return \Tlr\Tables\Elements\Cell
-     */
-    public function raw() : Cell
-    {
-        return $this->escape(false);
-    }
-
-    /**
-     * Get the cell content
-     *
-     * @return string
-     */
-    public function getContent() : string
-    {
-        return $this->escape ? helpers\e($this->content) : $this->content;
+        return $this->element;
     }
 }

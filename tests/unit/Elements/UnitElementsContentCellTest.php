@@ -1,14 +1,13 @@
 <?php
 
 use Mockery as m;
-use Tlr\Tables\Elements\Cell;
-use Tlr\Tables\Elements\Row;
+use Tlr\Tables\Elements\Cells\ContentCell;
 
-class UnitElementsCellTest extends TestCase
+class UnitElementsContentCellTest extends TestCase
 {
-    public function testSetContent()
+    public function testSetContentInInitialiser()
     {
-        $cell = new Cell($row = m::mock(Row::class));
+        $cell = new ContentCell;
 
         $cell->content('Foo');
 
@@ -17,7 +16,7 @@ class UnitElementsCellTest extends TestCase
 
     public function testContentEscapes()
     {
-        $cell = new Cell($row = m::mock(Row::class));
+        $cell = new ContentCell;
 
         $cell->content('<Foo />')->escape();
 
@@ -26,7 +25,7 @@ class UnitElementsCellTest extends TestCase
 
     public function testContentDoesNotEscape()
     {
-        $cell = new Cell($row = m::mock(Row::class));
+        $cell = new ContentCell;
 
         $cell->content('<Foo />')->dontEscape();
         $this->assertEquals('<Foo />', $cell->getContent());

@@ -4,7 +4,9 @@ namespace Tlr\Tables\Elements;
 
 use Tlr\Tables\Elements\Interfaces\Element;
 use Tlr\Tables\Elements\Interfaces\HasChildren;
-use Tlr\Tables\Elements\Section;
+use Tlr\Tables\Elements\Sections\BodySection;
+use Tlr\Tables\Elements\Sections\FooterSection;
+use Tlr\Tables\Elements\Sections\HeaderSection;
 use Tlr\Tables\Elements\Traits\Attributable;
 use Tlr\Tables\Elements\Traits\Classable;
 use Tlr\Tables\TableRenderer;
@@ -37,11 +39,11 @@ class Table implements Element, HasChildren
     /**
      * Get the table footer section
      *
-     * @return Section
+     * @return HeaderSection
      */
-    public function header() : Section
+    public function header() : HeaderSection
     {
-        return $this->header = $this->header ?: new Section($this, 'thead', 'th');
+        return $this->header = $this->header ?: new HeaderSection;
     }
 
     /**
@@ -49,9 +51,9 @@ class Table implements Element, HasChildren
      *
      * @return Section
      */
-    public function body() : Section
+    public function body() : BodySection
     {
-        return $this->body = $this->body ?: new Section($this, 'tbody');
+        return $this->body = $this->body ?: new BodySection;
     }
 
     /**
@@ -59,9 +61,9 @@ class Table implements Element, HasChildren
      *
      * @return Section
      */
-    public function footer() : Section
+    public function footer() : FooterSection
     {
-        return $this->footer = $this->footer ?: new Section($this, 'tfoot', 'th');
+        return $this->footer = $this->footer ?: new FooterSection;
     }
 
     /**
